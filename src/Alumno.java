@@ -31,7 +31,4 @@ public class Alumno {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
-
-
-
 }
