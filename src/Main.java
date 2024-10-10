@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        String dni,nombreCompleto,fechaNac,direccion;
         Scanner sc = new Scanner(System.in);
         int opcion;
 
@@ -40,8 +41,14 @@ public class Main {
         sc.close();
     }
 
-    private static void introducirAlumnos() {
-
+    private static void introducirAlumnos(Scanner sc) {
+        System.out.println("Introduce los datos del alumno a introducir:");
+        System.out.println("DNI:");
+        sc.nextLine();
+        System.out.println("Nombre completo:");
+        sc.nextLine();
+        System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
+        sc.nextLine();
     }
     private static void introducirMatricula() {
 
@@ -58,5 +65,5 @@ public class Main {
     private static void borrar() {
 
     }
-    //shjshjs
+
 }
