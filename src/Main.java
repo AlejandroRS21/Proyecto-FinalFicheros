@@ -16,13 +16,22 @@ public class Main {
             opcion = sc.nextInt();
             switch (opcion) {
                 case 1:
-                    introducir();
+                    introducirAlumnos();
                     break;
                 case 2:
-                    mostrar();
+                    introducirMatricula();
                     break;
                 case 3:
-                    salir();
+                    introducirAsignatura();
+                    break;
+                case 4:
+                    mostrarAlumno();
+                    break;
+                case 5:
+                    volcarAlumno();
+                    break;
+                case 6:
+                    borrar();
                     break;
                 default:
                     System.out.print("Numero incorrecto vuelva a escribir uno");
@@ -30,4 +39,24 @@ public class Main {
         } while (opcion != 3);
         sc.close();
     }
+
+    private static void introducirAlumnos() {
+
+    }
+    private static void introducirMatricula() {
+
+    }
+    private static void introducirAsignatura() {
+
+    }
+    private static void mostrarAlumno() {
+
+    }
+    private static void volcarAlumno() {
+
+    }
+    private static void borrar() {
+
+    }
+
 }
