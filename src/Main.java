@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcion;
+        String dni;
 
         do {
             System.out.print("MENU");
@@ -36,7 +37,9 @@ public class Main {
                     introducirAsignatura();
                     break;
                 case 4:
-                    mostrarAlumno();
+                    System.out.println("Introduce el dni del alumno del cual quieres informacion");
+                    dni = sc.nextLine();
+                    mostrarAlumno(dni);
                     break;
                 case 5:
                     volcarAlumno();
