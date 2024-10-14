@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
@@ -89,10 +88,13 @@ public class Main {
 
     }
     private static String mostrarAlumno(String dni) {
+        //Variables
         boolean finArchivo = false;
         boolean alumnoEncontrado = false;
         String retorno = "No se ha podido encontrar el alumno en el archivo 'ALUMNOS.DAT'";
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
+
+        //Leer alumnos e introducirlos un una ArrayList
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"))){
             while(!finArchivo){
                 try{
@@ -104,6 +106,7 @@ public class Main {
                 }
             }
 
+            //Buscar en la lista el alumno con el mismo dni que se pide por parametro en la función
             for(Alumno alumno : listaAlumnos){
                 if(alumno.getDni().equals(dni)){
                     retorno = alumno.toString();
@@ -114,10 +117,39 @@ public class Main {
         }catch(IOException e){
             System.out.println(e.getMessage());
         }
+        /*Si se ha encontrado alumno el retorno será la información del alumno ,
+         si no será que no se ha encontrado*/
         return retorno;
     }
     private static void volcarAlumno() {
+        //Variables
+        boolean finArchivo = false;
+        boolean alumnoEncontrado = false;
+        String retorno = "No se ha podido encontrar el alumno en el archivo 'ALUMNOS.DAT'";
+        ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
+        //Leer alumnos e introducirlos un una ArrayList
+        try{
+            ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"));
+            ObjectOutputStream out = null;
+            while(!finArchivo){
+                try{
+                    listaAlumnos.add((Alumno)inAlumno.readObject());
+                }catch(EOFException ex){
+                    finArchivo = true;
+                }catch(IOException | ClassNotFoundException ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+
+            for(Alumno alumno : listaAlumnos){
+                out = new ObjectOutputStream(new FileOutputStream((alumno.getNombreCompleto().replaceAll("\\s",""))+".txt"));
+
+            }
+
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
     private static void borrar() {
 
