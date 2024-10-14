@@ -84,7 +84,6 @@ public class Main {
             }
         }
 
-        do{
             for(Alumno alumno : listaAlumno){
                 intentoAlumno = alumno.getDni();
                 if(intentoAlumno.equals(dni)){
@@ -95,8 +94,6 @@ public class Main {
             if(alumnoExistente){
                 System.out.println("Ya existe un alumno con ese DNI");
             }
-
-        }while(alumnoExistente);
 
         System.out.println("Nombre completo:");
         nombreCompleto = sc.nextLine();
