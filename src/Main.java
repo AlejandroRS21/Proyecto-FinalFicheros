@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.io.*;
 
@@ -17,10 +19,14 @@ public class Main {
             opcion = sc.nextInt();
             switch (opcion) {
                 case 1:
-                    if(introducirAlumnos()){
-                        System.out.println("Se ha introducido el alumno");
-                    }else{
-
+                    try {
+                        if (introducirAlumnos()) {
+                            System.out.println("Se ha introducido el alumno correctamente");
+                        } else {
+                            System.out.println("No se ha podido introducir el alumno");
+                        }
+                    }catch(IOException ex){
+                        System.out.println(ex.getMessage());
                     }
                     break;
                 case 2:
@@ -79,8 +85,33 @@ public class Main {
     private static void introducirAsignatura() {
 
     }
-    private static void mostrarAlumno() {
+    private static String mostrarAlumno(String dni) {
+        boolean finArchivo = false;
+        boolean alumnoEncontrado = false;
+        String retorno = "No se ha podido encontrar el alumno en el archivo 'ALUMNOS.DAT'";
+        ArrayList<Alumno> listaAlumnos = new ArrayList<>();
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"))){
+            while(!finArchivo){
+                try{
+                    listaAlumnos.add((Alumno)in.readObject());
+                }catch(EOFException ex){
+                    finArchivo = true;
+                }catch(IOException | ClassNotFoundException ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
 
+            for(Alumno alumno : listaAlumnos){
+                if(alumno.getDni().equals(dni)){
+                    retorno = alumno.toString();
+                    alumnoEncontrado = true;
+                }
+            }
+
+        }catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+        return retorno;
     }
     private static void volcarAlumno() {
 

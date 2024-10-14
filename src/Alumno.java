@@ -1,4 +1,6 @@
-public class Alumno {
+import java.io.Serializable;
+
+public class Alumno implements Serializable {
     private String dni;
     private String nombreCompleto;
     private String fechaNac;
@@ -39,5 +41,10 @@ public class Alumno {
     }
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    @Override
+    public String toString() {
+        return "Alumno : " + nombreCompleto + "\nDni : " + dni + "\nFecha de nacimiento : " + fechaNac + "\nDireccion : " + direccion;
     }
 }

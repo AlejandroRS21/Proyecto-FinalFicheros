@@ -1,8 +1,16 @@
-public class Asignatura {
-    //Atributos
+import java.io.Serializable;
+
+public class Asignatura implements Serializable{
     private int codAsignatura;
     private String nombreAsignatura;
 
+    //Constructor
+    public Asignatura(int codAsignatura,String nombreAsignatura) {
+        this.codAsignatura = codAsignatura;
+        this.nombreAsignatura = nombreAsignatura;
+    }
+
+    //Getters and Setters
     public int getCodAsignatura() {
         return codAsignatura;
     }
