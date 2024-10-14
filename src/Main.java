@@ -87,8 +87,21 @@ public class Main {
         }
         return retorno;
     }
-    private static void introducirMatricula() {
+    private static void introducirMatricula(Scanner sc) throws IOException {
+        String codMAtric, dni, codAsig;
 
+        //Recogida de datos
+        System.out.println("Introduce el codigo de la matricula");
+        codMAtric = sc.nextLine();
+        System.out.println("Introduce el DNI del alumno");
+        dni = sc.nextLine();
+        System.out.println("Introduce el codigo de la asignatura");
+        codAsig = sc.nextLine();
+
+        //Introducir en MATRICULA.DAT
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
+
+        }
     }
     private static void introducirAsignatura() {
 
