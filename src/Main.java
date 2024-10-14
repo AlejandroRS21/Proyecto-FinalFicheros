@@ -1,10 +1,9 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException{
         Scanner sc = new Scanner(System.in);
         int opcion;
         String dni;
@@ -37,12 +36,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    try{
-                        introducirMatricula();
-                    }catch(IOException ex){
-                        System.out.println("No se ha podido introducir la matricula");
-                    }
-
+                    introducirMatricula();
                     break;
                 case 3:
                     introducirAsignatura();
@@ -68,46 +62,19 @@ public class Main {
     private static boolean introducirAlumnos() throws IOException {
         String dni,nombreCompleto,fechaNac,direccion;
         boolean retorno = true;
-        boolean finArchivo = false;
-        boolean alumnoExistente = false;
         Alumno alumnoIntroducido;
-        ArrayList<Alumno> listaAlumnos = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
-        //Recogida de datos del alumno
+        //Recodida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
         System.out.println("DNI:");
         dni = sc.nextLine();
-        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"))){
-            while(!finArchivo){
-                try{
-                    listaAlumnos.add((Alumno)in.readObject());
-                }catch(EOFException ex){
-                    finArchivo = true;
-                }catch(IOException | ClassNotFoundException ex){
-                    System.out.println(ex.getMessage());
-                }
-            }
-            do{
-                for(Alumno alumno : listaAlumnos){
-                    if (alumno.getDni().equals(dni)) {
-                        alumnoExistente = true;
-                    }
-                    System.out.println("Ese alumno ya existe , introduce uno nuevo");
-                    dni = sc.nextLine();
-                }
-            }while(alumnoExistente=true);
-
-        }catch (IOException _){}
         System.out.println("Nombre completo:");
         nombreCompleto = sc.nextLine();
         System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
         fechaNac = sc.nextLine();
         System.out.println("Introduce tu direccion");
         direccion = sc.nextLine();
-
-
-
         alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
         //Introducido en "ALUMNOS.DAT"
