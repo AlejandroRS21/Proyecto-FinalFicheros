@@ -1,3 +1,4 @@
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
@@ -62,19 +63,46 @@ public class Main {
     private static boolean introducirAlumnos() throws IOException {
         String dni,nombreCompleto,fechaNac,direccion;
         boolean retorno = true;
+        boolean finArchivo = false;
+        boolean alumnoExistente = false;
         Alumno alumnoIntroducido;
+        ArrayList<Alumno> listaAlumnos = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
 
-        //Recodida de datos del alumno
+        //Recogida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
         System.out.println("DNI:");
         dni = sc.nextLine();
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"))){
+            while(!finArchivo){
+                try{
+                    listaAlumnos.add((Alumno)in.readObject());
+                }catch(EOFException ex){
+                    finArchivo = true;
+                }catch(IOException | ClassNotFoundException ex){
+                    System.out.println(ex.getMessage());
+                }
+            }
+            do{
+                for(Alumno alumno : listaAlumnos){
+                    if(alumno.getDni().equals(dni)){
+                        alumnoExistente = true;
+                        System.out.println("Ese alumno ya existe , introduce uno nuevo");
+                        dni = sc.nextLine();
+                    }
+                }
+            }while(alumnoExistente=true);
+
+        }catch (IOException _){}
         System.out.println("Nombre completo:");
         nombreCompleto = sc.nextLine();
         System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
         fechaNac = sc.nextLine();
         System.out.println("Introduce tu direccion");
         direccion = sc.nextLine();
+
+
+
         alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
         //Introducido en "ALUMNOS.DAT"
@@ -88,17 +116,18 @@ public class Main {
         return retorno;
     }
     private static void introducirMatricula() throws IOException {
-        String codMAtric, dni, codAsig;
+        String dni;
+        int codMatric,codAsig;
         Matricula introducirMatricula;
-        Scanner sc = new Scanner();
+        Scanner sc = new Scanner(System.in);
         //Recogida de datos
         System.out.println("Introduce el codigo de la matricula");
-        codMAtric = sc.nextLine();
+        codMatric = sc.nextInt();
         System.out.println("Introduce el DNI del alumno");
         dni = sc.nextLine();
         System.out.println("Introduce el codigo de la asignatura");
-        codAsig = sc.nextLine();
-        introducirMatricula = new Matricula(codMAtric,dni,codAsig);
+        codAsig = sc.nextInt();
+        introducirMatricula = new Matricula(codMatric,dni,codAsig);
         //Introducir en MATRICULA.DAT
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
             out.writeObject(introducirMatricula);
