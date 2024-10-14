@@ -4,6 +4,15 @@ public class Alumno {
     private String fechaNac;
     private String direccion;
 
+
+    //Constructor
+    public Alumno(String dni,String nombreCompleto,String fechaNac,String direccion){
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.fechaNac = fechaNac;
+        this.direccion = direccion;
+    }
+
     //Getter
     public String getDni() {
         return dni;

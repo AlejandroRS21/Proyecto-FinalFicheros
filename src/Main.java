@@ -1,8 +1,8 @@
 import java.util.Scanner;
+import java.io.*;
 
 public class Main {
     public static void main(String[] args) {
-        String dni,nombreCompleto,fechaNac,direccion;
         Scanner sc = new Scanner(System.in);
         int opcion;
 
@@ -41,14 +41,31 @@ public class Main {
         sc.close();
     }
 
-    private static void introducirAlumnos(Scanner sc) {
+    private static boolean introducirAlumnos() {
+        String dni,nombreCompleto,fechaNac,direccion;
+        boolean retorno = true;
+        Alumno alumnoIntroducido;
+        Scanner sc = new Scanner(System.in);
         System.out.println("Introduce los datos del alumno a introducir:");
         System.out.println("DNI:");
-        sc.nextLine();
+        dni = sc.nextLine();
         System.out.println("Nombre completo:");
-        sc.nextLine();
+        nombreCompleto = sc.nextLine();
         System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
-        sc.nextLine();
+        fechaNac = sc.nextLine();
+        System.out.println("Introduce tu direccion");
+        direccion = sc.nextLine();
+
+        alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
+
+        try{
+            ObjectOutputStream out=null;
+                out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"));
+            out.writeObject(alumnoIntroducido);
+        }catch(IOException ex){
+            retorno = false;
+        }
+        return retorno;
     }
     private static void introducirMatricula() {
 
