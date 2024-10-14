@@ -17,7 +17,11 @@ public class Main {
             opcion = sc.nextInt();
             switch (opcion) {
                 case 1:
-                    introducirAlumnos();
+                    if(introducirAlumnos()){
+                        System.out.println("Se ha introducido el alumno");
+                    }else{
+
+                    }
                     break;
                 case 2:
                     introducirMatricula();
@@ -41,11 +45,13 @@ public class Main {
         sc.close();
     }
 
-    private static boolean introducirAlumnos() {
+    private static boolean introducirAlumnos() throws IOException {
         String dni,nombreCompleto,fechaNac,direccion;
         boolean retorno = true;
         Alumno alumnoIntroducido;
         Scanner sc = new Scanner(System.in);
+
+        //Recodida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
         System.out.println("DNI:");
         dni = sc.nextLine();
@@ -55,14 +61,14 @@ public class Main {
         fechaNac = sc.nextLine();
         System.out.println("Introduce tu direccion");
         direccion = sc.nextLine();
-
         alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
-        try{
-            ObjectOutputStream out=null;
-                out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"));
+        //Introducido en "ALUMNOS.DAT"
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"))) {
             out.writeObject(alumnoIntroducido);
-        }catch(IOException ex){
+            out.flush();
+        } catch (IOException ex) {
+            //Si no se introduce devuelve false la función
             retorno = false;
         }
         return retorno;
