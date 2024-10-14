@@ -104,6 +104,7 @@ public class Main {
             out.writeObject(introducirMatricula);
             out.flush();
         } catch (IOException e) {
+
             System.out.println("Error al introducir matricula");
         }
     }
