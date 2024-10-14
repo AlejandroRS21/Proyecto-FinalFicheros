@@ -44,13 +44,13 @@ public class Main {
                 case 4:
                     System.out.println("Introduce el dni del alumno del cual quieres informacion");
                     dni = sc.nextLine();
-                    mostrarAlumno(dni);
+                    System.out.println(mostrarAlumno(dni));
                     break;
                 case 5:
                     volcarAlumno();
                     break;
                 case 6:
-                    borrar();
+
                     break;
                 default:
                     System.out.print("Numero incorrecto vuelva a escribir uno");
