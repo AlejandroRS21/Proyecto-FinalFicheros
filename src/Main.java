@@ -9,14 +9,20 @@ public class Main {
         String dni;
 
         do {
-            System.out.print("MENU");
-            System.out.print("\n1.Introduce alumno");
-            System.out.print("\n2.Introduce matricula");
-            System.out.print("\n3.Introduce asignatura");
-            System.out.print("\n4.Mostrar informacion alumno");
-            System.out.print("\n5.Volcar todos los alumnos a fichero.");
-            System.out.print("\n6.Borrar todo\n");
+            System.out.println("""
+                    __________________________________________
+                    MENU
+                    1.Introduce alumno
+                    2.Introduce matricula
+                    3.Introduce asignatura
+                    4.Mostrar informacion alumno
+                    5.Volcar todos los alumnos a fichero.
+                    6.Borrar todo
+                    ___________________________________________
+                    """);
+
             opcion = sc.nextInt();
+            sc.nextLine();
             switch (opcion) {
                 case 1:
                     try {
@@ -151,8 +157,11 @@ public class Main {
             System.out.println(e.getMessage());
         }
     }
-    private static void borrar() {
+    private static void borrar(String directorioFicheros) {
+        File directorio = new File(directorioFicheros);
+        if(directorio.isDirectory()){ //Si es un directorio listar los archivos de dentro
 
+        }
     }
 
 }
