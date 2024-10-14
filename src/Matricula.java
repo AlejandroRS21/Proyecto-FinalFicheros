@@ -6,10 +6,10 @@ public class Matricula implements Serializable {
     private int codAsignatura;
 
     //Constructor
-    public Matricula(int codMatricula,String dni,int codAsignatura){
-        this.codMatricula = codMatricula;
+    public Matricula(int codMatric, String dni, int codAsig){
+        this.codMatricula = codMatric;
         this.dni = dni;
-        this.codAsignatura = codAsignatura;
+        this.codAsignatura = codAsig;
     }
 
     //Getter
