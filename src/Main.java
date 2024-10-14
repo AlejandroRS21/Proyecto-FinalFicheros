@@ -87,9 +87,10 @@ public class Main {
         }
         return retorno;
     }
-    private static void introducirMatricula(Scanner sc) throws IOException {
+    private static void introducirMatricula() throws IOException {
         String codMAtric, dni, codAsig;
-
+        Matricula introducirMatricula;
+        Scanner sc = new Scanner();
         //Recogida de datos
         System.out.println("Introduce el codigo de la matricula");
         codMAtric = sc.nextLine();
@@ -97,10 +98,13 @@ public class Main {
         dni = sc.nextLine();
         System.out.println("Introduce el codigo de la asignatura");
         codAsig = sc.nextLine();
-
+        introducirMatricula = new Matricula(codMAtric,dni,codAsig);
         //Introducir en MATRICULA.DAT
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
-
+            out.writeObject(introducirMatricula);
+            out.flush();
+        } catch (IOException e) {
+            System.out.println("Error al introducir matricula");
         }
     }
     private static void introducirAsignatura() {
