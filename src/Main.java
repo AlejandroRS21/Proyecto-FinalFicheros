@@ -88,28 +88,29 @@ public class Main {
                 intentoAlumno = alumno.getDni();
                 if(intentoAlumno.equals(dni)){
                     alumnoExistente = true;
+                    retorno = false;
+                    System.out.println("Ya existe un alumno con ese DNI");
                 }
             }
 
-            if(alumnoExistente){
-                System.out.println("Ya existe un alumno con ese DNI");
-            }
+        if(!alumnoExistente){
+            System.out.println("Nombre completo:");
+            nombreCompleto = sc.nextLine();
+            System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
+            fechaNac = sc.nextLine();
+            System.out.println("Introduce tu direccion");
+            direccion = sc.nextLine();
+            alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
-        System.out.println("Nombre completo:");
-        nombreCompleto = sc.nextLine();
-        System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
-        fechaNac = sc.nextLine();
-        System.out.println("Introduce tu direccion");
-        direccion = sc.nextLine();
-        alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
+            //Introducido en "ALUMNOS.DAT"
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"))) {
+                out.writeObject(alumnoIntroducido);
+                out.flush();
+            } catch (IOException ex) {
+                //Si no se introduce devuelve false la función
+                retorno = false;
+        }
 
-        //Introducido en "ALUMNOS.DAT"
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"))) {
-            out.writeObject(alumnoIntroducido);
-            out.flush();
-        } catch (IOException ex) {
-            //Si no se introduce devuelve false la función
-            retorno = false;
         }
         return retorno;
     }
