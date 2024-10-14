@@ -3,14 +3,13 @@ import java.util.Scanner;
 import java.io.*;
 
 public class Main {
-    public static void main(String[] args)throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcion;
         String dni;
 
         do {
             System.out.println("""
-                    \n
                     __________________________________________
                     MENU
                     1.Introduce alumno
@@ -89,21 +88,20 @@ public class Main {
         return retorno;
     }
     private static void introducirMatricula() throws IOException {
-        String dni;
-        int codMatric,codAsig;
-
-        Scanner sc = new Scanner(System.in);
+        String codMAtric, dni, codAsig;
+        Matricula introducirMatricula;
+        Scanner sc = new Scanner();
         //Recogida de datos
         System.out.println("Introduce el codigo de la matricula");
-        codMatric = sc.nextInt();
+        codMAtric = sc.nextLine();
         System.out.println("Introduce el DNI del alumno");
         dni = sc.nextLine();
         System.out.println("Introduce el codigo de la asignatura");
-        codAsig = sc.nextInt();
-        Matricula matricula = new Matricula(codMatric,dni,codAsig);
+        codAsig = sc.nextLine();
+        introducirMatricula = new Matricula(codMAtric,dni,codAsig);
         //Introducir en MATRICULA.DAT
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
-            out.writeObject(matricula);
+            out.writeObject(introducirMatricula);
             out.flush();
         } catch (IOException e) {
 
