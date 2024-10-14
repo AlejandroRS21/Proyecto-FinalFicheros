@@ -90,7 +90,6 @@ public class Main {
     private static void introducirMatricula() throws IOException {
         String dni;
         int codMatric,codAsig;
-        Matricula introducirMatricula;
         Scanner sc = new Scanner(System.in);
         //Recogida de datos
         System.out.println("Introduce el codigo de la matricula");
@@ -99,10 +98,10 @@ public class Main {
         dni = sc.nextLine();
         System.out.println("Introduce el codigo de la asignatura");
         codAsig = sc.nextInt();
-        introducirMatricula = new Matricula(codMatric,dni,codAsig);
+        Matricula matricula = new Matricula(codMatric,dni,codAsig);
         //Introducir en MATRICULA.DAT
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
-            out.writeObject(introducirMatricula);
+            out.writeObject(matricula);
             out.flush();
         } catch (IOException e) {
 
@@ -112,17 +111,16 @@ public class Main {
     private static void introducirAsignatura() {
         String nombreAsig;
         int codAsig;
-        Asignatura introducirAsignatura;
         Scanner sc = new Scanner(System.in);
         //Recogida de datos
         System.out.println("Introduce el codigo de la asignatura");
         codAsig = sc.nextInt();
         System.out.println("Introduce el nombre de la asignatura");
         nombreAsig = sc.nextLine();
-        introducirAsignatura = new Asignatura(codAsig,nombreAsig);
+        Asignatura asignatura = new Asignatura(codAsig,nombreAsig);
         //Introducir en ASIGNATURA.DAT
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ASIGNATURA.DAT"))) {
-            out.writeObject(introducirAsignatura);
+            out.writeObject(asignatura);
             out.flush();
         } catch (IOException e) {
 
