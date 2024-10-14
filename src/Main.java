@@ -25,7 +25,7 @@ public class Main {
                         } else {
                             System.out.println("No se ha podido introducir el alumno");
                         }
-                    }catch(IOException ex){
+                    } catch (IOException ex) {
                         System.out.println(ex.getMessage());
                     }
                     break;
@@ -54,7 +54,7 @@ public class Main {
     }
 
     private static boolean introducirAlumnos() throws IOException {
-        String dni,nombreCompleto,fechaNac,direccion;
+        String dni, nombreCompleto, fechaNac, direccion;
         boolean retorno = true;
         Alumno alumnoIntroducido;
         Scanner sc = new Scanner(System.in);
@@ -69,7 +69,7 @@ public class Main {
         fechaNac = sc.nextLine();
         System.out.println("Introduce tu direccion");
         direccion = sc.nextLine();
-        alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
+        alumnoIntroducido = new Alumno(dni, nombreCompleto, fechaNac, direccion);
 
         //Introducido en "ALUMNOS.DAT"
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"))) {
@@ -81,12 +81,28 @@ public class Main {
         }
         return retorno;
     }
-    private static void introducirMatricula() {
 
+    private static void introducirMatricula(Scanner sc) throws IOException {
+        String codMAtric, dni, codAsig;
+
+        //Recogida de datos
+        System.out.println("Introduce el codigo de la matricula");
+        codMAtric = sc.nextLine();
+        System.out.println("Introduce el DNI del alumno");
+        dni = sc.nextLine();
+        System.out.println("Introduce el codigo de la asignatura");
+        codAsig = sc.nextLine();
+
+        //Introducir en MATRICULA.DAT
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
+
+        }
     }
+
     private static void introducirAsignatura() {
 
     }
+
     private static String mostrarAlumno(String dni) {
         //Variables
         boolean finArchivo = false;
@@ -95,32 +111,33 @@ public class Main {
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
         //Leer alumnos e introducirlos un una ArrayList
-        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"))){
-            while(!finArchivo){
-                try{
-                    listaAlumnos.add((Alumno)in.readObject());
-                }catch(EOFException ex){
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"))) {
+            while (!finArchivo) {
+                try {
+                    listaAlumnos.add((Alumno) in.readObject());
+                } catch (EOFException ex) {
                     finArchivo = true;
-                }catch(IOException | ClassNotFoundException ex){
+                } catch (IOException | ClassNotFoundException ex) {
                     System.out.println(ex.getMessage());
                 }
             }
 
             //Buscar en la lista el alumno con el mismo dni que se pide por parametro en la función
-            for(Alumno alumno : listaAlumnos){
-                if(alumno.getDni().equals(dni)){
+            for (Alumno alumno : listaAlumnos) {
+                if (alumno.getDni().equals(dni)) {
                     retorno = alumno.toString();
                     alumnoEncontrado = true;
                 }
             }
 
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         /*Si se ha encontrado alumno el retorno será la información del alumno ,
          si no será que no se ha encontrado*/
         return retorno;
     }
+
     private static void volcarAlumno() {
         //Variables
         boolean finArchivo = false;
@@ -131,58 +148,58 @@ public class Main {
         ArrayList<Asignatura> listaAsignaturas = new ArrayList<>();
         ArrayList<Asignatura> asignaturasAlumno = new ArrayList<>();
 
-        try{
+        try {
             ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"));
             ObjectInputStream inMatricula = new ObjectInputStream(new FileInputStream("MATRICULAS.DAT"));
             ObjectInputStream inAsignatura = new ObjectInputStream(new FileInputStream("ASIGNATURAS.DAT"));
             ObjectOutputStream out = null;
 
             //Lleno el ArrayList de alumnos
-            while(!finArchivo){
-                try{
-                    listaAlumnos.add((Alumno)inAlumno.readObject());
-                }catch(EOFException ex){
+            while (!finArchivo) {
+                try {
+                    listaAlumnos.add((Alumno) inAlumno.readObject());
+                } catch (EOFException ex) {
                     finArchivo = true;
-                }catch(IOException | ClassNotFoundException ex){
+                } catch (IOException | ClassNotFoundException ex) {
                     System.out.println(ex.getMessage());
                 }
             }
 
             //Lleno el ArrayList de matriculas
             finArchivo = false;
-            while(!finArchivo){
-                try{
+            while (!finArchivo) {
+                try {
                     listaMatriculas.add((Matricula) inMatricula.readObject());
-                }catch(EOFException ex){
+                } catch (EOFException ex) {
                     finArchivo = true;
-                }catch(IOException | ClassNotFoundException ex){
+                } catch (IOException | ClassNotFoundException ex) {
                     System.out.println(ex.getMessage());
                 }
             }
 
             //Lleno el ArrayList de asignaturas
             finArchivo = false;
-            while(!finArchivo){
-                try{
+            while (!finArchivo) {
+                try {
                     listaAsignaturas.add((Asignatura) inAsignatura.readObject());
-                }catch(EOFException ex){
+                } catch (EOFException ex) {
                     finArchivo = true;
-                }catch(IOException | ClassNotFoundException ex){
+                } catch (IOException | ClassNotFoundException ex) {
                     System.out.println(ex.getMessage());
                 }
             }
 
             //Recorro cada alumno del archivo
-            for(Alumno alumno : listaAlumnos){
-                out = new ObjectOutputStream(new FileOutputStream((alumno.getNombreCompleto().replaceAll("\\s",""))+".txt"));
+            for (Alumno alumno : listaAlumnos) {
+                out = new ObjectOutputStream(new FileOutputStream((alumno.getNombreCompleto().replaceAll("\\s", "")) + ".txt"));
 
                 //Recorro cada matricula del archivo
-                for(Matricula matricula : listaMatriculas){
+                for (Matricula matricula : listaMatriculas) {
                     //Compruebo si cada matricula se asocia con el alumno actual
-                    if(alumno.getDni().equals(matricula.getDni())){
-                        for(Asignatura asignatura : listaAsignaturas){
+                    if (alumno.getDni().equals(matricula.getDni())) {
+                        for (Asignatura asignatura : listaAsignaturas) {
                             //Si se asocia recorro las asignaturas y compruebo si se asocian con el mismo codigo de asignatura de la matricula
-                            if(matricula.getCodAsignatura()==asignatura.getCodAsignatura()){
+                            if (matricula.getCodAsignatura() == asignatura.getCodAsignatura()) {
                                 //Guardo las asignaturas relacionadas con el alumno actual en una lista
                                 asignaturasAlumno.add(asignatura);
                             }
@@ -190,17 +207,18 @@ public class Main {
                     }
                 }
 
-            //Escribe cada asignatura del alumno en el fichero del alumno
-            for(Asignatura asignatura : asignaturasAlumno){
-                out.writeObject(asignatura);
-            }
+                //Escribe cada asignatura del alumno en el fichero del alumno
+                for (Asignatura asignatura : asignaturasAlumno) {
+                    out.writeObject(asignatura);
+                }
 
             }
 
-        }catch(IOException e){
+        } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
+
     private static void borrar() {
 
     }
