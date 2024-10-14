@@ -90,11 +90,11 @@ public class Main {
             }
             do{
                 for(Alumno alumno : listaAlumnos){
-                    if(alumno.getDni().equals(dni)){
+                    if (alumno.getDni().equals(dni)) {
                         alumnoExistente = true;
-                        System.out.println("Ese alumno ya existe , introduce uno nuevo");
-                        dni = sc.nextLine();
                     }
+                    System.out.println("Ese alumno ya existe , introduce uno nuevo");
+                    dni = sc.nextLine();
                 }
             }while(alumnoExistente=true);
 
