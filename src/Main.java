@@ -7,6 +7,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int opcion;
         String dni;
+        //directorio de ficheros texto alumnos String rutaDirectorio = "C:/ruta/a/tu/directorio";
 
         do {
             System.out.println("""
@@ -247,6 +248,24 @@ public class Main {
         File directorio = new File(directorioFicheros);
         if(directorio.isDirectory()){ //Si es un directorio listar los archivos de dentro
 
+            File[] ficheros = directorio.listFiles();
+
+            if(ficheros!=null){
+                for(File fichero : ficheros){
+                    try{
+                        if(fichero.delete()){
+                            System.out.println("El fichero " + fichero.getName() + "se ha eliminado");
+                        }
+                    }catch (Exception e){
+                        System.err.println("ERROR : El fichero " + fichero.getName() + "nos e ha podido eliminar " + e.getMessage());
+                    }
+                }
+            }else{
+                System.out.println( "No se pudieron listar los ficheros ");
+            }
+
+        }else{
+            System.out.println("La ruta proporcionada no es un directorio, vuelva a configurar el directorio");
         }
     }
 
