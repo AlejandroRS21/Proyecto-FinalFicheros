@@ -110,7 +110,24 @@ public class Main {
         }
     }
     private static void introducirAsignatura() {
+        String nombreAsig;
+        int codAsig;
+        Asignatura introducirAsignatura;
+        Scanner sc = new Scanner(System.in);
+        //Recogida de datos
+        System.out.println("Introduce el codigo de la asignatura");
+        codAsig = sc.nextInt();
+        System.out.println("Introduce el nombre de la asignatura");
+        nombreAsig = sc.nextLine();
+        introducirAsignatura = new Asignatura(codAsig,nombreAsig);
+        //Introducir en ASIGNATURA.DAT
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ASIGNATURA.DAT"))) {
+            out.writeObject(introducirAsignatura);
+            out.flush();
+        } catch (IOException e) {
 
+            System.out.println("Error al introducir asignatura");
+        }
     }
     private static String mostrarAlumno(String dni) {
         //Variables
