@@ -37,7 +37,12 @@ public class Main {
                     }
                     break;
                 case 2:
-                    introducirMatricula();
+                    try{
+                        introducirMatricula();
+                    }catch(IOException ex){
+                        System.out.println("No se ha podido introducir la matricula");
+                    }
+
                     break;
                 case 3:
                     introducirAsignatura();
