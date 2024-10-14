@@ -60,15 +60,44 @@ public class Main {
     }
 
     private static boolean introducirAlumnos() throws IOException {
-        String dni,nombreCompleto,fechaNac,direccion;
+        String dni,nombreCompleto,fechaNac,direccion,intentoAlumno;
         boolean retorno = true;
+        boolean finArchivo = false;
+        boolean alumnoExistente = false;
         Alumno alumnoIntroducido;
+        ArrayList<Alumno> listaAlumno = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
+        ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"));
 
-        //Recodida de datos del alumno
+        //Recogida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
         System.out.println("DNI:");
         dni = sc.nextLine();
+
+        while(!finArchivo){
+            try{
+                listaAlumno.add((Alumno)inAlumno.readObject());
+            }catch(EOFException ex){
+                finArchivo = true;
+            }catch(IOException | ClassNotFoundException ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        do{
+            for(Alumno alumno : listaAlumno){
+                intentoAlumno = alumno.getDni();
+                if(intentoAlumno.equals(dni)){
+                    alumnoExistente = true;
+                }
+            }
+
+            if(alumnoExistente){
+                System.out.println("Ya existe un alumno con ese DNI");
+            }
+
+        }while(alumnoExistente);
+
         System.out.println("Nombre completo:");
         nombreCompleto = sc.nextLine();
         System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
@@ -199,7 +228,7 @@ public class Main {
 
             //Recorro cada alumno del archivo
             for(Alumno alumno : listaAlumnos){
-                out = new ObjectOutputStream(new FileOutputStream((alumno.getNombreCompleto().replaceAll("\\s",""))+".txt"));
+                out = new ObjectOutputStream(new FileOutputStream(("\\Alumnos\\" + alumno.getNombreCompleto().replaceAll("\\s",""))+".txt"));
 
                 //Recorro cada matricula del archivo
                 for(Matricula matricula : listaMatriculas){
