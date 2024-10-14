@@ -5,7 +5,7 @@ public class Asignatura implements Serializable{
     private String nombreAsignatura;
 
     //Constructor
-    public Asignatura(int codAsignatura,String nombreAsignatura) {
+    public Asignatura(int codAsig,String nombreAsig) {
         this.codAsignatura = codAsignatura;
         this.nombreAsignatura = nombreAsignatura;
     }
