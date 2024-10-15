@@ -27,6 +27,7 @@ public class Main {
                     4.Mostrar informacion alumno
                     5.Volcar todos los alumnos a fichero.
                     6.Borrar todo
+                    7.Salir
                     ___________________________________________
                     """);
 
@@ -61,10 +62,12 @@ public class Main {
                 case 6:
                     borrar(rutaDirectorio);
                     break;
+                case 7:
+                    break;
                 default:
                     System.out.print("Numero incorrecto vuelva a escribir uno");
             }
-        } while (opcion != 3);
+        } while (opcion != 7);
         sc.close();
     }
 
@@ -76,7 +79,7 @@ public class Main {
         Alumno alumnoIntroducido;
         ArrayList<Alumno> listaAlumno = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"));
+        ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("Alumnos\\ALUMNOS.DAT"));
 
         //Recogida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
@@ -112,7 +115,7 @@ public class Main {
             alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
             //Introducido en "ALUMNOS.DAT"
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"))) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\ALUMNOS.DAT"))) {
                 out.writeObject(alumnoIntroducido);
                 out.flush();
             } catch (IOException ex) {
@@ -130,19 +133,22 @@ public class Main {
         //Recogida de datos
         System.out.println("Introduce el codigo de la matricula");
         codMatric = sc.nextInt();
+        sc.nextLine();
         System.out.println("Introduce el DNI del alumno");
         dni = sc.nextLine();
         System.out.println("Introduce el codigo de la asignatura");
         codAsig = sc.nextInt();
         Matricula matricula = new Matricula(codMatric,dni,codAsig);
-        //Introducir en MATRICULA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
+        //Introducir en Alumnos\\MATRICULA.DAT
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\MATRICULA.DAT"))) {
             out.writeObject(matricula);
             out.flush();
+            System.out.println("Matricula introducida correctamente");
         } catch (IOException e) {
 
             System.out.println("Error al introducir matricula");
         }
+
     }
     private static void introducirAsignatura() {
         String nombreAsig;
@@ -151,16 +157,17 @@ public class Main {
         //Recogida de datos
         System.out.println("Introduce el codigo de la asignatura");
         codAsig = sc.nextInt();
+        sc.nextLine();
         System.out.println("Introduce el nombre de la asignatura");
         nombreAsig = sc.nextLine();
         Asignatura asignatura = new Asignatura(codAsig,nombreAsig);
         //Introducir en ASIGNATURA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ASIGNATURA.DAT"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\ASIGNATURA.DAT"))) {
             out.writeObject(asignatura);
             out.flush();
+            System.out.println("Asignatura introducida correctamente");
         } catch (IOException e) {
-
-            System.out.println("Error al introducir asignatura");
+            System.out.println("Error al introducir asignatura" + e.getMessage());
         }
     }
     private static String mostrarAlumno(String dni) {
