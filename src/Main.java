@@ -112,7 +112,7 @@ public class Main {
             alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
             //Introducido en "ALUMNOS.DAT"
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"))) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\ALUMNOS.DAT"))) {
                 out.writeObject(alumnoIntroducido);
                 out.flush();
             } catch (IOException ex) {
@@ -136,12 +136,11 @@ public class Main {
         codAsig = sc.nextInt();
         Matricula matricula = new Matricula(codMatric,dni,codAsig);
         //Introducir en MATRICULA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\MATRICULA.DAT"))) {
             out.writeObject(matricula);
             out.flush();
         } catch (IOException e) {
-
-            System.out.println("Error al introducir matricula");
+            System.out.println("Error al introducir matricula"+e.getMessage());
         }
     }
     private static void introducirAsignatura() {
@@ -155,7 +154,7 @@ public class Main {
         nombreAsig = sc.nextLine();
         Asignatura asignatura = new Asignatura(codAsig,nombreAsig);
         //Introducir en ASIGNATURA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ASIGNATURA.DAT"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\ASIGNATURA.DAT"))) {
             out.writeObject(asignatura);
             out.flush();
         } catch (IOException e) {
