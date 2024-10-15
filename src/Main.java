@@ -112,7 +112,7 @@ public class Main {
             alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
             //Introducido en "ALUMNOS.DAT"
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\ALUMNOS.DAT"))) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ALUMNOS.DAT"))) {
                 out.writeObject(alumnoIntroducido);
                 out.flush();
             } catch (IOException ex) {
@@ -136,11 +136,12 @@ public class Main {
         codAsig = sc.nextInt();
         Matricula matricula = new Matricula(codMatric,dni,codAsig);
         //Introducir en MATRICULA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\MATRICULA.DAT"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("MATRICULA.DAT"))) {
             out.writeObject(matricula);
             out.flush();
         } catch (IOException e) {
-            System.out.println("Error al introducir matricula"+e.getMessage());
+
+            System.out.println("Error al introducir matricula");
         }
     }
     private static void introducirAsignatura() {
@@ -154,7 +155,7 @@ public class Main {
         nombreAsig = sc.nextLine();
         Asignatura asignatura = new Asignatura(codAsig,nombreAsig);
         //Introducir en ASIGNATURA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\ASIGNATURA.DAT"))) {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("ASIGNATURA.DAT"))) {
             out.writeObject(asignatura);
             out.flush();
         } catch (IOException e) {
@@ -278,14 +279,27 @@ public class Main {
     }
     private static void borrar(String directorioFicheros) {
         File directorio = new File(directorioFicheros);
-        try {
-            if(directorio.delete()) {
-                System.out.println("Se ha eliminado el directorio "+ directorio.getName());
-            }
-        }catch (Exception e){
-            System.out.println("El directorio "+directorio.getName() + "no ha podido eliminarse" + e.getMessage());
-        }
+        if(directorio.isDirectory()){ //Si es un directorio listar los archivos de dentro
 
+            File[] ficheros = directorio.listFiles();
+
+            if(ficheros!=null){
+                for(File fichero : ficheros){
+                    try{
+                        if(fichero.delete()){
+                            System.out.println("El fichero " + fichero.getName() + "se ha eliminado");
+                        }
+                    }catch (Exception e){
+                        System.err.println("ERROR : El fichero " + fichero.getName() + "nos e ha podido eliminar " + e.getMessage());
+                    }
+                }
+            }else{
+                System.out.println( "No se pudieron listar los ficheros ");
+            }
+
+        }else{
+            System.out.println("La ruta proporcionada no es un directorio, vuelva a configurar el directorio");
+        }
     }
 
 }
