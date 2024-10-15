@@ -279,27 +279,14 @@ public class Main {
     }
     private static void borrar(String directorioFicheros) {
         File directorio = new File(directorioFicheros);
-        if(directorio.isDirectory()){ //Si es un directorio listar los archivos de dentro
-
-            File[] ficheros = directorio.listFiles();
-
-            if(ficheros!=null){
-                for(File fichero : ficheros){
-                    try{
-                        if(fichero.delete()){
-                            System.out.println("El fichero " + fichero.getName() + "se ha eliminado");
-                        }
-                    }catch (Exception e){
-                        System.err.println("ERROR : El fichero " + fichero.getName() + "nos e ha podido eliminar " + e.getMessage());
-                    }
-                }
-            }else{
-                System.out.println( "No se pudieron listar los ficheros ");
+        try {
+            if(directorio.delete()) {
+                System.out.println("Se ha eliminado el directorio "+ directorio.getName());
             }
-
-        }else{
-            System.out.println("La ruta proporcionada no es un directorio, vuelva a configurar el directorio");
+        }catch (Exception e){
+            System.out.println("El directorio "+directorio.getName() + "no ha podido eliminarse" + e.getMessage());
         }
+
     }
 
 }
