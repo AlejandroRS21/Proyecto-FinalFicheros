@@ -77,24 +77,27 @@ public class Main {
         boolean finArchivo = false;
         boolean alumnoExistente = false;
         Alumno alumnoIntroducido;
+        File archivoAlumno = new File("Alumnos\\ALUMNOS.DAT");
         ArrayList<Alumno> listaAlumno = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("Alumnos\\ALUMNOS.DAT"));
+        ObjectInputStream inAlumno = null;
 
         //Recogida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
         System.out.println("DNI:");
         dni = sc.nextLine();
 
-        while(!finArchivo){
-            try{
-                listaAlumno.add((Alumno)inAlumno.readObject());
-            }catch(EOFException ex){
-                finArchivo = true;
-            }catch(IOException | ClassNotFoundException ex){
-                System.out.println(ex.getMessage());
+        if(archivoAlumno.exists()){
+            inAlumno = new ObjectInputStream(new FileInputStream(archivoAlumno));
+            while(!finArchivo){
+                try{
+                    listaAlumno.add((Alumno)inAlumno.readObject());
+                }catch(EOFException ex){
+                    finArchivo = true;
+                }catch(IOException | ClassNotFoundException ex){
+                    System.out.println(ex.getMessage());
+                }
             }
-        }
 
             for(Alumno alumno : listaAlumno){
                 intentoAlumno = alumno.getDni();
@@ -104,6 +107,8 @@ public class Main {
                     System.out.println("Ya existe un alumno con ese DNI");
                 }
             }
+        }
+
 
         if(!alumnoExistente){
             System.out.println("Nombre completo:");
@@ -115,7 +120,7 @@ public class Main {
             alumnoIntroducido = new Alumno(dni,nombreCompleto,fechaNac,direccion);
 
             //Introducido en "ALUMNOS.DAT"
-            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Alumnos\\ALUMNOS.DAT"))) {
+            try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(archivoAlumno))) {
                 out.writeObject(alumnoIntroducido);
                 out.flush();
             } catch (IOException ex) {
