@@ -178,7 +178,7 @@ public class Main {
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
         //Leer alumnos e introducirlos un una ArrayList
-        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"))){
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("Alumnos\\ALUMNOS.DAT"))){
             while(!finArchivo){
                 try{
                     listaAlumnos.add((Alumno)in.readObject());
@@ -215,9 +215,9 @@ public class Main {
         ArrayList<Asignatura> asignaturasAlumno = new ArrayList<>();
 
         try{
-            ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("ALUMNOS.DAT"));
-            ObjectInputStream inMatricula = new ObjectInputStream(new FileInputStream("MATRICULAS.DAT"));
-            ObjectInputStream inAsignatura = new ObjectInputStream(new FileInputStream("ASIGNATURAS.DAT"));
+            ObjectInputStream inAlumno = new ObjectInputStream(new FileInputStream("Alumnos\\ALUMNOS.DAT"));
+            ObjectInputStream inMatricula = new ObjectInputStream(new FileInputStream("Alumnos\\MATRICULAS.DAT"));
+            ObjectInputStream inAsignatura = new ObjectInputStream(new FileInputStream("Alumnos\\ASIGNATURAS.DAT"));
             ObjectOutputStream out = null;
 
             //Lleno el ArrayList de alumnos
