@@ -178,7 +178,6 @@ public class Main {
     private static String mostrarAlumno(String dni) {
         //Variables
         boolean finArchivo = false;
-        boolean alumnoEncontrado = false;
         String retorno = "No se ha podido encontrar el alumno en el archivo 'ALUMNOS.DAT'";
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
@@ -198,7 +197,6 @@ public class Main {
             for(Alumno alumno : listaAlumnos){
                 if(alumno.getDni().equals(dni)){
                     retorno = alumno.toString();
-                    alumnoEncontrado = true;
                 }
             }
 
