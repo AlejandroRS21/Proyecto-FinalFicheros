@@ -7,7 +7,15 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int opcion;
         String dni;
-        //directorio de ficheros texto alumnos String rutaDirectorio = "C:/ruta/a/tu/directorio";
+
+        //directorio de ficheros texto alumnos
+        String rutaDirectorio = "Alumnos";
+
+        File directorioAlumnos = new File(rutaDirectorio);
+        if(!directorioAlumnos.exists()){
+            directorioAlumnos.mkdir();
+            System.out.println("El directorio Alumnos ha sido creado");
+        }
 
         do {
             System.out.println("""
@@ -51,7 +59,7 @@ public class Main {
                     volcarAlumno();
                     break;
                 case 6:
-
+                    borrar(rutaDirectorio);
                     break;
                 default:
                     System.out.print("Numero incorrecto vuelva a escribir uno");
