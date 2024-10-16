@@ -6,8 +6,8 @@ public class Asignatura implements Serializable{
 
     //Constructor
     public Asignatura(int codAsig,String nombreAsig) {
-        this.codAsignatura = codAsignatura;
-        this.nombreAsignatura = nombreAsignatura;
+        this.codAsignatura = codAsig;
+        this.nombreAsignatura = nombreAsig;
     }
 
     //Getters and Setters
