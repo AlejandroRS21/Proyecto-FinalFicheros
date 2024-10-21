@@ -84,7 +84,7 @@ public class Main {
         Alumno alumnoIntroducido;
         File archivoAlumno = new File(FICHERO_DAT_ALUMNOS);
         ArrayList<Alumno> listaAlumno = new ArrayList<>();
-        ObjectInputStream inAlumno = null;
+        ObjectInputStream inAlumno;
 
         // Recogida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
@@ -144,12 +144,11 @@ public class Main {
         return retorno;
     }
 
-
-
-    private static void introducirMatricula() {
+    private static void introducirMatricula()  {
         String dni;
         int codMatric, codAsig;
-        //Recogida de datos
+
+        // Recogida de datos
         System.out.println("Introduce el codigo de la matricula");
         codMatric = sc.nextInt();
         sc.nextLine();
@@ -157,18 +156,33 @@ public class Main {
         dni = sc.nextLine();
         System.out.println("Introduce el codigo de la asignatura");
         codAsig = sc.nextInt();
+
         Matricula matricula = new Matricula(codMatric, dni, codAsig);
-        //Introducir en Alumnos\\MATRICULA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FICHERO_DAT_MATRICULAS))) {
+        File archivoMatriculas = new File(FICHERO_DAT_MATRICULAS);
+
+        // Verificar si el archivo ya existe para decidir si escribir el encabezado o no
+        boolean existeArchivo = archivoMatriculas.exists();
+
+        try (FileOutputStream fos = new FileOutputStream(archivoMatriculas, true);
+             ObjectOutputStream out = existeArchivo ?
+                     new ObjectOutputStream(fos) {
+                         @Override
+                         protected void writeStreamHeader() throws IOException {
+                             reset(); // Evitar escribir el encabezado
+                         }
+                     } :
+                     new ObjectOutputStream(fos)) {
+
+            // Escribir el objeto Matricula en el archivo
             out.writeObject(matricula);
             out.flush();
             System.out.println("Matricula introducida correctamente");
+
         } catch (IOException e) {
-
-            System.out.println("Error al introducir matricula");
+            System.out.println("Error al introducir matricula: " + e.getMessage());
         }
-
     }
+
 
     private static void introducirAsignatura() {
         String nombreAsig;
@@ -215,6 +229,11 @@ public class Main {
 
         // Si no existe, procede a crear la asignatura
         Asignatura asignatura = new Asignatura(codAsig, nombreAsig);
+
+        // Introducir en ASIGNATURA.DAT, evitando sobreescribir el archivo
+        File archivoAsignaturas = new File(FICHERO_DAT_ASIGNATURAS);
+        boolean archivoExiste = archivoAsignaturas.exists();
+
 
         // Introducir en ASIGNATURA.DAT
         try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FICHERO_DAT_ASIGNATURAS, true))) {
