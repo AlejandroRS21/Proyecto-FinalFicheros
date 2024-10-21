@@ -164,20 +164,57 @@ public class Main {
     private static void introducirAsignatura() {
         String nombreAsig;
         int codAsig;
-        //Recogida de datos
-        System.out.println("Introduce el codigo de la asignatura");
+
+        // Recogida de datos
+        System.out.println("Introduce el código de la asignatura:");
         codAsig = sc.nextInt();
-        sc.nextLine();
-        System.out.println("Introduce el nombre de la asignatura");
+        sc.nextLine(); // Limpiar el buffer
+        System.out.println("Introduce el nombre de la asignatura:");
         nombreAsig = sc.nextLine();
+
+        // Verificar si el código de la asignatura ya está asociado a una matrícula
+        boolean codigoExistente = false;
+        ArrayList<Matricula> listaMatriculas = new ArrayList<>();
+
+        // Leer matrículas existentes
+        try (ObjectInputStream inMatricula = new ObjectInputStream(new FileInputStream(FICHERO_DAT_MATRICULAS))) {
+            while (true) {
+                try {
+                    listaMatriculas.add((Matricula) inMatricula.readObject());
+                } catch (EOFException ex) {
+                    break; // Fin del archivo
+                } catch (IOException | ClassNotFoundException ex) {
+                    System.out.println(ex.getMessage());
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo de matrículas: " + e.getMessage());
+        }
+
+        // Comprobar si ya existe una matrícula con el mismo código de asignatura
+        for (Matricula matricula : listaMatriculas) {
+            if (matricula.getCodAsignatura() == codAsig) {
+                codigoExistente = true;
+                System.out.println("Ya existe una matrícula con ese código de asignatura.");
+                break;
+            }
+        }
+
+        // Si el código ya existe, salir del metodo
+        if (codigoExistente) {
+            return;
+        }
+
+        // Si no existe, procede a crear la asignatura
         Asignatura asignatura = new Asignatura(codAsig, nombreAsig);
-        //Introducir en ASIGNATURA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FICHERO_DAT_ASIGNATURAS))) {
+
+        // Introducir en ASIGNATURA.DAT
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FICHERO_DAT_ASIGNATURAS, true))) {
             out.writeObject(asignatura);
             out.flush();
             System.out.println("Asignatura introducida correctamente");
         } catch (IOException e) {
-            System.out.println("Error al introducir asignatura" + e.getMessage());
+            System.out.println("Error al introducir la asignatura: " + e.getMessage());
         }
     }
 
