@@ -65,7 +65,7 @@ public class Main {
                     volcarAlumno();
                     break;
                 case 6:
-                    borrar(DIRECTORIO_ALUMNOS);
+                    borrar();
                     break;
                 case 7:
                     break;
@@ -80,62 +80,71 @@ public class Main {
     private static boolean introducirAlumnos() throws IOException {
         String dni, nombreCompleto, fechaNac, direccion, intentoAlumno;
         boolean retorno = true;
-        boolean finArchivo = false;
         boolean alumnoExistente = false;
         Alumno alumnoIntroducido;
         File archivoAlumno = new File(FICHERO_DAT_ALUMNOS);
         ArrayList<Alumno> listaAlumno = new ArrayList<>();
-        ObjectInputStream inAlumno;
+        ObjectInputStream inAlumno = null;
 
-        //Recogida de datos del alumno
+        // Recogida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
         System.out.println("DNI:");
         dni = sc.nextLine();
 
+        // Leer alumnos existentes
         if (archivoAlumno.exists()) {
-            inAlumno = new ObjectInputStream(new FileInputStream(archivoAlumno));
-            while (!finArchivo) {
-                try {
-                    listaAlumno.add((Alumno) inAlumno.readObject());
-                } catch (EOFException ex) {
-                    finArchivo = true;
-                } catch (IOException | ClassNotFoundException ex) {
-                    System.out.println(ex.getMessage());
+            try {
+                inAlumno = new ObjectInputStream(new FileInputStream(archivoAlumno));
+                while (true) {
+                    try {
+                        listaAlumno.add((Alumno) inAlumno.readObject());
+                    } catch (EOFException ex) {
+                        break; // Fin del archivo
+                    }
                 }
-            }
-
-            for (Alumno alumno : listaAlumno) {
-                intentoAlumno = alumno.getDni();
-                if (intentoAlumno.equals(dni)) {
-                    alumnoExistente = true;
-                    retorno = false;
-                    System.out.println("Ya existe un alumno con ese DNI");
-                }
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println(ex.getMessage());
             }
         }
 
+        // Comprobar si el alumno ya existe
+        for (Alumno alumno : listaAlumno) {
+            intentoAlumno = alumno.getDni();
+            if (intentoAlumno.equals(dni)) {
+                alumnoExistente = true;
+                retorno = false;
+                System.out.println("Ya existe un alumno con ese DNI");
+                break; // Salir del bucle si ya existe
+            }
+        }
 
+        // Si no existe, introducir nuevo alumno
         if (!alumnoExistente) {
             System.out.println("Nombre completo:");
             nombreCompleto = sc.nextLine();
-            System.out.println("Fecha de nacimiento(Formato DD/MM/AAAA)");
+            System.out.println("Fecha de nacimiento (Formato DD/MM/AAAA):");
             fechaNac = sc.nextLine();
-            System.out.println("Introduce tu direccion");
+            System.out.println("Introduce tu dirección:");
             direccion = sc.nextLine();
             alumnoIntroducido = new Alumno(dni, nombreCompleto, fechaNac, direccion);
 
-            //Introducido en "ALUMNOS.DAT"
+            // Reescribir el archivo con todos los alumnos (incluyendo el nuevo)
             try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(archivoAlumno))) {
+                // Escribir todos los alumnos existentes
+                for (Alumno a : listaAlumno) {
+                    out.writeObject(a);
+                }
+                // Escribir el nuevo alumno
                 out.writeObject(alumnoIntroducido);
                 out.flush();
             } catch (IOException ex) {
-                //Si no se introduce devuelve false la función
-                retorno = false;
+                retorno = false; // Si no se puede escribir, retorna false
             }
-
         }
         return retorno;
     }
+
+
 
     private static void introducirMatricula() {
         String dni;
@@ -339,8 +348,8 @@ public class Main {
     }
 
 
-    private static void borrar(String directorioFicheros) {
-        File directorio = new File(directorioFicheros);
+    private static void borrar() {
+        File directorio = new File(Main.DIRECTORIO_ALUMNOS);
 
         if (directorio.isDirectory()) {
             File[] ficheros = directorio.listFiles();
