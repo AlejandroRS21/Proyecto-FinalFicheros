@@ -11,7 +11,7 @@ public class Main {
     private static final Scanner sc = new Scanner(System.in);
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         int opcion;
         String dni;
         crearCarpetaAlumnos(); //metodo que crear el directorio Alumnos si no existe
@@ -85,7 +85,7 @@ public class Main {
         Alumno alumnoIntroducido;
         File archivoAlumno = new File(FICHERO_DAT_ALUMNOS);
         ArrayList<Alumno> listaAlumno = new ArrayList<>();
-        ObjectInputStream inAlumno = null;
+        ObjectInputStream inAlumno;
 
         //Recogida de datos del alumno
         System.out.println("Introduce los datos del alumno a introducir:");
@@ -137,7 +137,7 @@ public class Main {
         return retorno;
     }
 
-    private static void introducirMatricula() throws IOException {
+    private static void introducirMatricula() {
         String dni;
         int codMatric, codAsig;
         //Recogida de datos
@@ -196,7 +196,6 @@ public class Main {
             if (matricula.getCodAsignatura() == codAsig) {
                 codigoExistente = true;
                 System.out.println("Ya existe una matrícula con ese código de asignatura.");
-                break;
             }
         }
 
