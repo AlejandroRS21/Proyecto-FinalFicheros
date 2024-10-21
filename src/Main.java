@@ -346,7 +346,7 @@ public class Main {
             // Recorrer cada alumno y volcar su información
             for (Alumno alumno : listaAlumnos) {
                 // Crear archivo para cada alumno. El nombre del archivo es el nombre del alumno sin espacios
-                File archivoAlumno = new File(DIRECTORIO_ALUMNOS + "\\" + alumno.getNombreCompleto().replaceAll("\\s", "") + ".txt");
+                File archivoAlumno = new File(DIRECTORIO_ALUMNOS + "\\" + alumno.getDni().replaceAll("\\s", "") + ".txt");
 
                 try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivoAlumno))) {
                     // Escribir datos del alumno en el archivo
