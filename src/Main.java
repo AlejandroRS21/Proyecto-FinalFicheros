@@ -14,8 +14,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int opcion;
         String dni;
-
-
         crearCarpetaAlumnos(); //metodo que crear el directorio Alumnos si no existe
 
         do {
