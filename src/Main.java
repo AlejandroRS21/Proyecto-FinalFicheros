@@ -114,7 +114,7 @@ public class Main {
                 alumnoExistente = true;
                 retorno = false;
                 System.out.println("Ya existe un alumno con ese DNI");
-                break; // Salir del bucle si ya existe
+                break;
             }
         }
 
@@ -183,7 +183,6 @@ public class Main {
         }
     }
 
-
     private static void introducirAsignatura() {
         String nombreAsig;
         int codAsig;
@@ -191,57 +190,38 @@ public class Main {
         // Recogida de datos
         System.out.println("Introduce el código de la asignatura:");
         codAsig = sc.nextInt();
-        sc.nextLine(); // Limpiar el buffer
+        sc.nextLine();
         System.out.println("Introduce el nombre de la asignatura:");
         nombreAsig = sc.nextLine();
 
-        // Verificar si el código de la asignatura ya está asociado a una matrícula
-        boolean codigoExistente = false;
-        ArrayList<Matricula> listaMatriculas = new ArrayList<>();
-
-        // Leer matrículas existentes
-        try (ObjectInputStream inMatricula = new ObjectInputStream(new FileInputStream(FICHERO_DAT_MATRICULAS))) {
-            while (true) {
-                try {
-                    listaMatriculas.add((Matricula) inMatricula.readObject());
-                } catch (EOFException ex) {
-                    break; // Fin del archivo
-                } catch (IOException | ClassNotFoundException ex) {
-                    System.out.println(ex.getMessage());
-                }
-            }
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo de matrículas: " + e.getMessage());
-        }
-
-        // Comprobar si ya existe una matrícula con el mismo código de asignatura
-        for (Matricula matricula : listaMatriculas) {
-            if (matricula.getCodAsignatura() == codAsig) {
-                codigoExistente = true;
-                System.out.println("Ya existe una matrícula con ese código de asignatura.");
-            }
-        }
-
-        // Si el código ya existe, salir del metodo
-        if (codigoExistente) {
+        // Verificar si la asignatura ya existe
+        if (asignaturaExists(codAsig)) {
+            System.out.println("Ya existe una asignatura con el código " + codAsig + " introduzca otro numero.");
             return;
         }
-
-        // Si no existe, procede a crear la asignatura
         Asignatura asignatura = new Asignatura(codAsig, nombreAsig);
-
-        // Introducir en ASIGNATURA.DAT, evitando sobreescribir el archivo
         File archivoAsignaturas = new File(FICHERO_DAT_ASIGNATURAS);
-        boolean archivoExiste = archivoAsignaturas.exists();
 
+        // Verificar si el archivo ya existe para decidir si escribir el encabezado o no
+        boolean existeArchivo = archivoAsignaturas.exists();
 
-        // Introducir en ASIGNATURA.DAT
-        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FICHERO_DAT_ASIGNATURAS, true))) {
+        try (FileOutputStream fis = new FileOutputStream(archivoAsignaturas, true);
+             ObjectOutputStream out = existeArchivo ?
+                     new ObjectOutputStream(fis) {
+                         @Override
+                         protected void writeStreamHeader() throws IOException {
+                             reset(); // Evitar escribir el encabezado
+                         }
+                     } :
+                     new ObjectOutputStream(fis)) {
+
+            // Escribir el objeto asignatura en el archivo
             out.writeObject(asignatura);
             out.flush();
             System.out.println("Asignatura introducida correctamente");
+
         } catch (IOException e) {
-            System.out.println("Error al introducir la asignatura: " + e.getMessage());
+            System.out.println("Error al introducir matricula: " + e.getMessage());
         }
     }
 
@@ -366,7 +346,6 @@ public class Main {
         }
     }
 
-
     private static void borrar() {
         File directorio = new File(Main.DIRECTORIO_ALUMNOS);
 
@@ -392,7 +371,6 @@ public class Main {
         }
     }
 
-
     private static void crearCarpetaAlumnos() {
         File directorioAlumnos = new File(DIRECTORIO_ALUMNOS);
         if (!directorioAlumnos.exists()) {
@@ -406,5 +384,29 @@ public class Main {
         }
     }
 
+    private static boolean asignaturaExists(int codAsig) {
+        File archivoAsignaturas = new File(FICHERO_DAT_ASIGNATURAS);
 
+        // Verificar si el archivo existe antes de intentar leer
+        if (!archivoAsignaturas.exists()) {
+            return false; // El archivo no existe, así que no hay asignaturas
+        }
+
+        try (FileInputStream fis = new FileInputStream(archivoAsignaturas);
+             ObjectInputStream in = new ObjectInputStream(fis)) {
+
+            while (true) {
+                Asignatura asignatura = (Asignatura) in.readObject();
+                if (asignatura.getCodAsignatura() == codAsig) {
+                    return true; // Se encontró una asignatura con el mismo código
+                }
+            }
+        } catch (EOFException e) {
+            // Fin de archivo alcanzado, no hay más asignaturas que leer
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al leer las asignaturas: " + e.getMessage());
+        }
+
+        return false; // No se encontró ninguna asignatura con el mismo código
+    }
 }
