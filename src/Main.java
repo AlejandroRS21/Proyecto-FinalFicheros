@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.*;
-//Arreglar volcar alumno que no escribe las asignaturas
 
 public class Main {
     private static final String DIRECTORIO_ALUMNOS = "Alumnos";
@@ -13,7 +12,6 @@ public class Main {
 
     public static void main(String[] args) {
         int opcion;
-        String dni;
         crearCarpetaAlumnos(); //metodo que crear el directorio Alumnos si no existe
 
         do {
@@ -57,9 +55,7 @@ public class Main {
                     introducirAsignatura();
                     break;
                 case 4:
-                    System.out.println("Introduce el dni del alumno del cual quieres informacion");
-                    dni = sc.nextLine();
-                    System.out.println(mostrarAlumno(dni));
+                    mostrarAlumno();
                     break;
                 case 5:
                     volcarAlumno();
@@ -162,7 +158,6 @@ public class Main {
 
         // Verificar si el archivo ya existe para decidir si escribir el encabezado o no
         boolean existeArchivo = archivoMatriculas.exists();
-
         try (FileOutputStream fos = new FileOutputStream(archivoMatriculas, true);
              ObjectOutputStream out = existeArchivo ?
                      new ObjectOutputStream(fos) {
@@ -225,13 +220,16 @@ public class Main {
         }
     }
 
-    private static String mostrarAlumno(String dni) {
-        //Variables
+    private static void mostrarAlumno() {
+        System.out.println("Introduce el dni del alumno del cual quieres informacion");
+        String dni = sc.nextLine();
+
+        // Variables
         boolean finArchivo = false;
-        String retorno = "No se ha podido encontrar el alumno en el archivo 'ALUMNOS.DAT'";
+        boolean encontrado = false;
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
 
-        //Leer alumnos e introducirlos un una ArrayList
+        // Leer alumnos e introducirlos en una ArrayList
         try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(FICHERO_DAT_ALUMNOS))) {
             while (!finArchivo) {
                 try {
@@ -243,20 +241,25 @@ public class Main {
                 }
             }
 
-            //Buscar en la lista el alumno con el mismo dni que se pide por parametro en la función
+            // Buscar en la lista el alumno con el mismo dni que se pide por parámetro
             for (Alumno alumno : listaAlumnos) {
                 if (alumno.getDni().equals(dni)) {
-                    retorno = alumno.toString();
+                    System.out.println(alumno);
+                    encontrado = true;
+                    break;
                 }
+            }
+
+            // Si no se encuentra el alumno, mostrar mensaje
+            if (!encontrado) {
+                System.out.println("No se ha podido encontrar el alumno en el archivo 'ALUMNOS.DAT'");
             }
 
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-        /*Si se ha encontrado alumno el retorno será la información del alumno ,
-         si no será que no se ha encontrado*/
-        return retorno;
     }
+
 
     private static void volcarAlumno() {
         // Variables
