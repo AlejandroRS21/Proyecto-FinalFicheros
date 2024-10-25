@@ -11,7 +11,7 @@ public class Alumno implements Serializable {
     private String direccion;
 
 
-    //Constructor
+    // Constructor
     public Alumno(String dni, String nombreCompleto, String fechaNac, String direccion) {
         this.dni = dni;
         this.nombreCompleto = nombreCompleto;
@@ -19,7 +19,7 @@ public class Alumno implements Serializable {
         this.direccion = direccion;
     }
 
-    //Getter
+    // Getter
     public String getDni() {
         return dni;
     }
@@ -36,7 +36,7 @@ public class Alumno implements Serializable {
         return nombreCompleto;
     }
 
-    //Setter
+    // Setter
     public void setDni(String dni) {
         this.dni = dni;
     }

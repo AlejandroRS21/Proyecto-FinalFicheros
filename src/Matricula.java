@@ -8,14 +8,14 @@ public class Matricula implements Serializable {
     private String dni;
     private int codAsignatura;
 
-    //Constructor
+    // Constructor
     public Matricula(int codMatric, String dni, int codAsig){
         this.codMatricula = codMatric;
         this.dni = dni;
         this.codAsignatura = codAsig;
     }
 
-    //Getter
+    // Getter
     public String getDni() {
         return dni;
     }
@@ -25,7 +25,7 @@ public class Matricula implements Serializable {
     public int getCodAsignatura() {
         return codAsignatura;
     }
-    //Setter
+    // Setter
     public void setCodMatricula(int codMatricula) {
         this.codMatricula = codMatricula;
     }
@@ -36,7 +36,7 @@ public class Matricula implements Serializable {
         this.codAsignatura = codAsignatura;
     }
 
-    //Metodo que introduce una nueva matricula
+    // Metodo  que introduce una nueva matricula
     public static void introducirMatricula() {
         String dni;
         int codMatric, codAsig;

@@ -7,13 +7,13 @@ public class Asignatura implements Serializable{
     private int codAsignatura;
     private String nombreAsignatura;
 
-    //Constructor
+    // Constructor
     public Asignatura(int codAsig,String nombreAsig) {
         this.codAsignatura = codAsig;
         this.nombreAsignatura = nombreAsig;
     }
 
-    //Getters and Setters
+    // Getters and Setters
     public int getCodAsignatura() {
         return codAsignatura;
     }
