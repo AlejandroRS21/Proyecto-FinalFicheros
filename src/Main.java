@@ -368,7 +368,6 @@ public class Main {
                 System.out.println("No se pudieron listar los ficheros del directorio " + directorio.getPath() + " o no había ficheros en el directorio");
 
             }
-            System.out.println("Todos los ficheros han sido borrados.");
         } else {
             System.out.println("La ruta proporcionada no es un directorio");
         }
