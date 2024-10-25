@@ -255,8 +255,10 @@ public class Main {
                 System.out.println("No se ha podido encontrar el alumno en el archivo 'ALUMNOS.DAT'");
             }
 
+        }  catch (FileNotFoundException e) {
+            System.out.println("El archivo de alumnos no existe. Por favor, verifique la ruta.");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+                System.out.println("Error al acceder al archivo: " + e.getMessage());
         }
     }
 
