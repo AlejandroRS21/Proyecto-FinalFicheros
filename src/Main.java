@@ -9,7 +9,6 @@ public class Main {
     private static final String FICHERO_DAT_ASIGNATURAS = "Alumnos/ASIGNATURA.DAT";
     private static final Scanner sc = new Scanner(System.in);
 
-
     public static void main(String[] args) {
         int opcion;
         crearCarpetaAlumnos(); //metodo que crear el directorio Alumnos si no existe
@@ -71,7 +70,6 @@ public class Main {
         } while (opcion != 7);
         sc.close();
     }
-
 
     private static boolean introducirAlumnos() throws IOException {
         String dni, nombreCompleto, fechaNac, direccion, intentoAlumno;
@@ -261,7 +259,6 @@ public class Main {
                 System.out.println("Error al acceder al archivo: " + e.getMessage());
         }
     }
-
 
     private static void volcarAlumno() {
         // Variables
