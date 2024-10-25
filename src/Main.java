@@ -358,7 +358,7 @@ public class Main {
                 for (File fichero : ficheros) {
                     try {
                         if (fichero.isFile() && fichero.delete()) {
-                            System.out.println("El fichero " + fichero.getName() + " se ha eliminado correctamente");
+                            System.out.println("El fichero " + fichero.getName() + " se ha eliminado.");
                         }
                     } catch (Exception e) {
                         System.err.println("ERROR: No se pudo borrar el archivo : " + fichero.getName() + e.getMessage());
@@ -368,6 +368,7 @@ public class Main {
                 System.out.println("No se pudieron listar los ficheros del directorio " + directorio.getPath());
 
             }
+            System.out.println("Todos los ficheros han sido borrados.");
         } else {
             System.out.println("La ruta proporcionada no es un directorio");
         }
