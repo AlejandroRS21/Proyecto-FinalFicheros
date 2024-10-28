@@ -39,8 +39,6 @@ public class Main {
                     try {
                         if (Alumno.introducirAlumnos()) {
                             System.out.println("Se ha introducido el alumno correctamente");
-                        } else {
-                            System.out.println("No se ha podido introducir el alumno");
                         }
                     } catch (IOException ex) {
                         System.out.println(ex.getMessage());

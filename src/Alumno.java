@@ -23,15 +23,12 @@ public class Alumno implements Serializable {
     public String getDni() {
         return dni;
     }
-
     public String getFechaNac() {
         return fechaNac;
     }
-
     public String getDireccion() {
         return direccion;
     }
-
     public String getNombreCompleto() {
         return nombreCompleto;
     }
@@ -40,19 +37,17 @@ public class Alumno implements Serializable {
     public void setDni(String dni) {
         this.dni = dni;
     }
-
     public void setNombreCompleto(String nombreCompleto) {
         this.nombreCompleto = nombreCompleto;
     }
-
     public void setFechaNac(String fechaNac) {
         this.fechaNac = fechaNac;
     }
-
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
 
+    //Metodos
     // Metodo que introduce los datos de un alumno
     public static boolean introducirAlumnos() throws IOException {
 

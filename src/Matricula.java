@@ -52,7 +52,7 @@ public class Matricula implements Serializable {
 
         // Verificar si la matrícula ya existe
         if (matriculaExiste(codMatric, dni, codAsig)) {
-            System.out.println("Ya existe una matrícula con el código " + codMatric + " para el alumno con DNI " + dni + " en la asignatura con código " + codAsig);
+            System.out.println("Ya existe una matrícula con el código de asignatura " + codAsig + " para el alumno con DNI " + dni );
             return; // Salir del método si la matrícula ya existe
         }
         Matricula matricula = new Matricula(codMatric, dni, codAsig);
