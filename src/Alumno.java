@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Alumno implements Serializable {
@@ -80,16 +81,11 @@ public class Alumno implements Serializable {
             }
         }
 
-        // Comprobar si el alumno ya existe
-        for (Alumno alumno : listaAlumno) {
-            intentoAlumno = alumno.getDni();
-            if (intentoAlumno.equals(dni)) {
-                alumnoExistente = true;
-                retorno = false;
-                System.out.println("Ya existe un alumno con ese DNI");
-                break;
-            }
-        }
+        if(siAlumnoExiste(listaAlumno, dni)){
+            System.out.println("Ya hay un alumno con ese DNI ");
+            alumnoExistente=true;
+        };
+
 
         // Si no existe, introducir nuevo alumno
         if (!alumnoExistente) {
@@ -116,6 +112,16 @@ public class Alumno implements Serializable {
         }
         return retorno;
     }
+
+    public static boolean siAlumnoExiste(List<Alumno> listaAlumno, String dni) {
+        for (Alumno alumno : listaAlumno) {
+            if (alumno.getDni().equals(dni)) {
+                return true; // Se encontró un alumno con el DNI especificado
+            }
+        }
+        return false; // No se encontró ningún alumno con ese DNI
+    }
+
 
     // Metodo que muestra los datos del alumno
     public static void mostrarAlumno() {

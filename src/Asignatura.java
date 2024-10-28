@@ -39,14 +39,17 @@ public class Asignatura implements Serializable{
         System.out.println("Introduce el código de la asignatura:");
         codAsig = sc.nextInt();
         sc.nextLine();
-        System.out.println("Introduce el nombre de la asignatura:");
-        nombreAsig = sc.nextLine();
 
         // Verificar si la asignatura ya existe
         if (Asignatura.asignaturaExists(codAsig)) {
             System.out.println("Ya existe una asignatura con el código " + codAsig + " introduzca otro numero.");
             return;
         }
+
+        System.out.println("Introduce el nombre de la asignatura:");
+        nombreAsig = sc.nextLine();
+
+
         Asignatura asignatura = new Asignatura(codAsig, nombreAsig);
         File archivoAsignaturas = new File(Main.FICHERO_DAT_ASIGNATURAS);
 

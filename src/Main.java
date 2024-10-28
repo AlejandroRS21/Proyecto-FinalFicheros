@@ -7,7 +7,6 @@ public class Main {
     public static final String FICHERO_DAT_MATRICULAS = "Alumnos/MATRICULA.DAT";
     public static final String FICHERO_DAT_ASIGNATURAS = "Alumnos/ASIGNATURA.DAT";
     private static final Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
         int opcion;
         Alumno.crearCarpetaAlumnos(); //metodo que crear el directorio Alumnos si no existe
@@ -37,7 +36,7 @@ public class Main {
             switch (opcion) {
                 case 1:
                     try {
-                        if (Alumno.introducirAlumnos()) {
+                        if (!Alumno.introducirAlumnos()) {
                             System.out.println("Se ha introducido el alumno correctamente");
                         }
                     } catch (IOException ex) {
@@ -45,7 +44,7 @@ public class Main {
                     }
                     break;
                 case 2:
-                    Matricula.introducirMatricula();
+                    Matricula.introducirMatricula( );
                     break;
                 case 3:
                     Asignatura.introducirAsignatura();

@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Matricula implements Serializable {
@@ -47,6 +48,32 @@ public class Matricula implements Serializable {
         sc.nextLine();
         System.out.println("Introduce el DNI del alumno");
         dni = sc.nextLine();
+
+        // Verificar si el DNI del alumno existe
+        ArrayList<Alumno> listaAlumnos = new ArrayList<>();
+        File archivoAlumno = new File(Main.FICHERO_DAT_ALUMNOS);
+
+        // Leer alumnos existentes
+        if (archivoAlumno.exists()) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(archivoAlumno))) {
+                while (true) {
+                    try {
+                        listaAlumnos.add((Alumno) in.readObject());
+                    } catch (EOFException ex) {
+                        break; // Fin del archivo
+                    }
+                }
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+        // Verificar si el alumno existe
+        if (!Alumno.siAlumnoExiste(listaAlumnos, dni)) {
+            System.out.println("El DNI no existe en la lista de alumnos.");
+            return; // Terminar el proceso si el DNI no existe
+        }
+
         System.out.println("Introduce el codigo de la asignatura");
         codAsig = sc.nextInt();
 
@@ -94,7 +121,7 @@ public class Matricula implements Serializable {
 
             while (true) {
                 Matricula matricula = (Matricula) in.readObject();
-
+                
                 //Comprobar que existe una matricula con el mismo codigo de asignatura
                 if (asignaturaMatriculada(matricula, dni, codAsignatura)) {
                     return true; // Se encontró una matrícula con el mismo DNI y código de asignatura
