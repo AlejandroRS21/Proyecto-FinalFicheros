@@ -52,7 +52,7 @@ public class Alumno implements Serializable {
     // Metodo que introduce los datos de un alumno
     public static boolean introducirAlumnos() throws IOException {
 
-        String dni, nombreCompleto, fechaNac, direccion, intentoAlumno;
+        String dni, nombreCompleto, fechaNac, direccion;
         boolean retorno = true;
         boolean alumnoExistente = false;
         Alumno alumnoIntroducido;
@@ -84,7 +84,7 @@ public class Alumno implements Serializable {
         if(siAlumnoExiste(listaAlumno, dni)){
             System.out.println("Ya hay un alumno con ese DNI ");
             alumnoExistente=true;
-        };
+        }
 
 
         // Si no existe, introducir nuevo alumno
