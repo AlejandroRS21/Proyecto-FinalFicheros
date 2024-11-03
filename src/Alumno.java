@@ -122,7 +122,6 @@ public class Alumno implements Serializable {
         return false; // No se encontró ningún alumno con ese DNI
     }
 
-
     // Metodo que muestra los datos del alumno
     public static void mostrarAlumno() {
         System.out.println("Introduce el dni del alumno del cual quieres informacion");
@@ -150,7 +149,6 @@ public class Alumno implements Serializable {
                 if (alumno.getDni().equals(dni)) {
                     System.out.println(alumno);
                     encontrado = true;
-                    break;
                 }
             }
 
